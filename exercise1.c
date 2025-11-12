@@ -7,8 +7,8 @@
  * 
  * Taylor series for sin(x) = x - x^3/3! + x^5/5! - x^7/7! + ...
  */
-
-#include "taylor_sine.h"
+#include <stdio.h>
+#include <math.h>
 
 /* 
  * Calculate sine using Taylor series approximation
@@ -16,10 +16,35 @@
  * n: number of terms in the series
  * Returns: approximation of sin(x)
  */
+
 double taylor_sine(double x, int n) {
-    // TODO: Implement the Taylor series approximation for sine
-    // Hint: The series is: x - x^3/3! + x^5/5! - x^7/7! + ...
-    // Use a loop to calculate n terms of the series
+    double term = x;       // First term is x^1 / 1!
+    double sum = x;
+    int sign = -1;
+
+    for (int i = 1; i < n; ++i) {
+        term = term * x * x / ((2 * i) * (2 * i + 1));
+        sum += sign * term;
+        sign *= -1;
+    }
+
+    return sum;
+}
+
+int main() {
+    double angle;
+    int terms;
+
+    printf("Enter angle in radians: ");
+    scanf("%lf", &angle);
+
+    printf("Enter number of terms: ");
+    scanf("%d", &terms);
+
+    double result = taylor_sine(angle, terms);
+    printf("Approximate sin(%lf) using %d terms: %lf\n", angle, terms, result);
     
-    return 0.0; // placeholder - replace with your implementation
+    double result2 = sin(angle);
+    printf("Approximate sin(%lf) using %d terms: %lf\n", angle, terms, result2);
+    return 0;
 }
